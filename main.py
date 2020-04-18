@@ -1,5 +1,4 @@
 import random
-import time
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
@@ -8,23 +7,18 @@ nice = {(1, 3), (9, 8), (8, 0), (2, 1), (0, 3), (7, 2), (1, 2), (3, 6), (1, 1), 
 
 
 def generate_cells(n=5, r=10):
+    """Generate n random active cells in range r from (0, 0)"""
     return {(random.randrange(r), random.randrange(r)) for _ in range(n)}
 
 
 def get_neighbours(tup):
+    """Get cell's neighbours"""
     positions = [-1, 1, 0]
     return {(tup[0] + a, tup[1] + b) for a in positions for b in positions if tup != (tup[0] + a, tup[1] + b)}
 
 
-def get_range():
-    x = {a[0] for a in cells}
-    x.update({a[1] for a in cells})
-    low = min(x) - 5
-    high = max(x) + 5
-    return low, high
-
-
 def life(i):
+    """Main Game of Life logic"""
     global go, cells, future_alive, future_dead, ax
     if go:
         cells -= future_dead
@@ -57,5 +51,3 @@ if __name__ == '__main__':
     ax = fig.add_subplot(1, 1, 1)
     anim = FuncAnimation(fig, life, interval=200)
     plt.show()
-
-time.sleep(10)
